@@ -2,13 +2,26 @@
 
 ## 2024-02-18 Init Meeting
 ### Work Distribution:
-|                            | % Grades |   Due Date  | 
-| -------------------------- | -------- | ----------- | 
-|          Proposal          |   7.5%   | Fri, Mar 1  | 
-|    Proposal presentation   |    5%    | Fri, Mar 1  | 
-|       Progress report      |    5%    | Fri, Mar 29 | 
-|  Final poster presentation |   7.5%   | Fri, Apr 19 | 
-|        Final report        |   25%    | Fri, Apr 19 | 
+|                            | % Grades |   Due Date  |        | 
+| -------------------------- | -------- | ----------- |--------| 
+|          Proposal          |   7.5%   | Fri, Mar 1  |        | 
+|    Proposal presentation   |    5%    | Fri, Mar 1  |Jonathan| 
+|       Progress report      |    5%    | Fri, Mar 29 |        | 
+|  Final poster presentation |   7.5%   | Fri, Apr 19 |  Cleo  | 
+|        Final report        |   25%    | Fri, Apr 19 |        | 
+
+### [Project Description](https://docs.google.com/document/u/0/d/e/2PACX-1vSlYrMw402tL3F95ay-AaptTdF80UOER-gne_O0kqbuuk6WXrlsjwaYjjS0Jyl95dXYyDLjh9DR1mln/pub?pli=1)
+9 Heilmeier questions need to be answered by the proposal:
+
+1. What are you trying to do? Articulate your objectives using absolutely no jargon.
+2. How is it done today; what are the limits of current practice?
+3. What's new in your approach? Why will it be successful?
+4. Who cares?
+5. If you're successful, what difference and impact will it make, and how do you measure them (e.g., via user studies, experiments, ground truth data, etc.)?
+6. What are the risks and payoffs?
+7. How much will it cost?
+8. How long will it take?
+9. What are the midterm and final "exams" to check for success? How will progress be measured?
 
 ### Ideas:
 1. Core CPI forecaster:
@@ -28,4 +41,4 @@
 
 3. Viz of a network of ___
 
-### Minimum Requirements:
+## 2024-02-25 Literature Review and Idea Presentation
