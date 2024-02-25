@@ -142,3 +142,30 @@ https://journalofbigdata.springeropen.com/articles/10.1186/s40537-022-00676-2
 
 Exchange rates: the influence of political and economic events. а fundamental analysis approach
 https://www.researchgate.net/publication/329912469_Exchange_rates_The_influence_of_political_and_economic_events_A_fundamental_analysis_approach
+
+
+AQ - My idea is to visualize ems response times in a metro area.
+
+-The idea is to give people or local governments the ability to see the response time by address. 
+-Analysis could include some network analysis to see what the best possible response time is.
+-Visualization could be in d3.js tableau, I would assume d3.js as that gives a bit more flexability for map data. 
+
+Some possible datasets (Using San Francisco as an example, can be any city.):
+1. https://data.sfgov.org/Public-Safety/Law-Enforcement-Dispatched-Calls-for-Service-Real-/gnap-fj3t/about_data
+2. https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-2018-to-Present/wg3w-h783/about_data
+3. https://gist.githubusercontent.com/cdolek/d08cac2fa3f6338d84ea/raw/ebe3d2a4eda405775a860d251974e1f08cbe4f48/SanFrancisco.Neighborhoods.json
+4. https://github.com/royhobbstn/geojson-dijkstra >>Possible package to use to find best path
+
+Papers:
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7718983/
+https://www.sciencedirect.com/science/article/pii/S2772442523001235
+https://jamanetwork.com/journals/jamasurgery/fullarticle/2643992
+
+Main concerns:
+- Possible this visual would rely on tools outside the scope of our class
+- In reality, might be hard to run an analysis around this topic.
+- My proposed analysis might be redundant as its likely GPS already has optimal route calculated.
+  
+
+
+
