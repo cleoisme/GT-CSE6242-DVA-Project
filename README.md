@@ -83,6 +83,27 @@
        8. How long will it take?
        9. What are the midterm and final "exams" to check for success? How will progress be measured?
 
- 
 
+
+ DL - impact of economic and political events on FOREX markets (and investment recommendations)
+ 
+- Gather FOREX data for # major currencies
+- Gather/score political and economical events in and between countries 
+- Show influence of current and futures of the FOREX pair
+- Recommend investment options
+
+Data sources can be Bloomberg FOREX (need to confirm)
+Dashboard can be in Tableau
+
+
+
+References:
+
+https://www.knowi.com/blog/analysis-the-impact-of-economic-and-political-events-on-global-markets/
+
+Forex market forecasting using machine learning: Systematic Literature Review and meta-analysis
+https://journalofbigdata.springeropen.com/articles/10.1186/s40537-022-00676-2
+
+Exchange rates: the influence of political and economic events. а fundamental analysis approach 
+https://www.researchgate.net/publication/329912469_Exchange_rates_The_influence_of_political_and_economic_events_A_fundamental_analysis_approach
 
