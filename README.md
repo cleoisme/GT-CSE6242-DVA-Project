@@ -167,5 +167,7 @@ Main concerns:
 - My proposed analysis might be redundant as its likely GPS already has optimal route calculated.
   
 
-
+LITERATURE FOR OUR PROPOSAL
+1. https://galileo-gatech.primo.exlibrisgroup.com/discovery/fulldisplay?docid=cdi_openaire_primary_doi_cb6f02711b1894482a50a870022835ce&context=PC&vid=01GALI_GIT:GT&lang=en&search_scope=CentralIndex&adaptor=Primo%20Central&tab=CentralIndex&query=any,contains,portfolio%20construction&offset=0
+2. https://www.sciencedirect.com/science/article/pii/S0950705122006815?ref=pdf_download&fr=RR-2&rr=85c90ab6c83815b4
 
