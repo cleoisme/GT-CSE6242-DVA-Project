@@ -28,13 +28,12 @@
 ## 2024-02-25 Project Idea
 
 - [Detailed Design](https://gtvault-my.sharepoint.com/:w:/r/personal/jmaniery3_gatech_edu/_layouts/15/Doc.aspx?sourcedoc=%7Bea366262-96d8-4022-9bc4-1a4003229d51%7D&action=view&wdparaid=3EE5DD85) by Jonathan
+- [Project Sources](https://gtvault-my.sharepoint.com/personal/jmaniery3_gatech_edu/_layouts/15/onedrive.aspx?e=5%3A4417817e6b794c66ae8658b8b516a7f9&sharingv2=true&fromShare=true&at=9&CT=1711678128702&OR=OWA%2DNT%2DMail&CID=c5ceeadf%2D722c%2D6e18%2D5f1d%2D432b9b7f8e0b&id=%2Fpersonal%2Fjmaniery3%5Fgatech%5Fedu%2FDocuments%2FCSE6242%2DDVA%2DProject&FolderCTID=0x0120001B296D146568AA4FA8D8B485368C6702&view=0) by Jonathan
+
 - [Project Requirements](https://docs.google.com/document/u/0/d/e/2PACX-1vSlYrMw402tL3F95ay-AaptTdF80UOER-gne_O0kqbuuk6WXrlsjwaYjjS0Jyl95dXYyDLjh9DR1mln/pub?pli=1) from CSE 6242 Syllabus
 - Key References:
-  - Mihai Cucuringu et al. “SPONGE: A generalized eigenproblem for clustering signed
-    networks”. In: The 22nd International Conference on Artificial Intelligence and Statistics. PMLR.
-    2019, pp. 1088–1098.
-  - Scott Murray. Interactive Data Visualization for the Web: An Introduction to Designing with
-    D3. ’O’Reilly Media, Inc., 2017, pp. 195–214
+  - Mihai Cucuringu et al. “SPONGE: A generalized eigenproblem for clustering signed networks”. In: The 22nd International Conference on Artificial Intelligence and Statistics. PMLR. 2019, pp. 1088–1098.
+  - Scott Murray. Interactive Data Visualization for the Web: An Introduction to Designing with D3. ’O’Reilly Media, Inc., 2017, pp. 195–214
 
 ## 2024-02-18 Init Meeting
 
