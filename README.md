@@ -5,14 +5,6 @@
 - [Design](https://www.figma.com/file/axpVnCUkpGxcK6Xg9PeIaf/Poster?type=whiteboard&t=a3oq6j1K881nHLvX-0) on Figma.
 - [Requirements](./poster/posterText.md)
 
-5% Use of text (Succinct or verbose?)
-
-5% Use of graphics (Are they relevant? Do they help you better understand the project's approaches and ideas?)
-
-5% Legibility (Is the text and figures too small?)
-
-5% Grammar and spelling |
-
 ## 2024-03-29 Progress report
 
 - [Progress report](https://www.overleaf.com/project/6605e613bbb17f6cb15df691) on OverLeaf
