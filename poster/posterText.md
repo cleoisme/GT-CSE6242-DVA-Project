@@ -46,7 +46,7 @@ SPONGE and Beyond: Signed Weighted Graph Stock Clustering for Dynamic Market For
 
 - 5% What are its characteristics (e.g., size on disk, # of records, temporal or not, etc.)
   - Size: 1.73GB
-  - Record Number: [TO Fill]
+  - Record Number: (37104728, 10)
   - Permanant data and updated till March 2024
 
 ## [Need Help] 25% Experiments and results:
