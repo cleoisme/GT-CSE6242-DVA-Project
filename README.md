@@ -1,17 +1,19 @@
 # GT-CSE6242-DVA-Project
 
-## 2024-02-18 Init Meeting
-### Work Distribution:
-|                            | % Grades |   Due Date  |        | 
-| -------------------------- | -------- | ----------- |--------| 
-|          Proposal          |   7.5%   | Fri, Mar 1  |        | 
-|    Proposal presentation   |    5%    | Fri, Mar 1  |Jonathan| 
-|       Progress report      |    5%    | Fri, Mar 29 |        | 
-|  Final poster presentation |   7.5%   | Fri, Apr 19 |  Cleo  | 
-|        Final report        |   25%    | Fri, Apr 19 |        | 
+## 2024-04-10 Mock Poster
 
-### [Project Description](https://docs.google.com/document/u/0/d/e/2PACX-1vSlYrMw402tL3F95ay-AaptTdF80UOER-gne_O0kqbuuk6WXrlsjwaYjjS0Jyl95dXYyDLjh9DR1mln/pub?pli=1)
-9 Heilmeier questions need to be answered by the proposal:
+- [Design](https://www.figma.com/file/axpVnCUkpGxcK6Xg9PeIaf/Poster?type=whiteboard&t=a3oq6j1K881nHLvX-0) on Figma.
+- [Requirements](./poster/posterText.md)
+
+## 2024-03-29 Progress report
+
+- [Progress report](https://www.overleaf.com/project/6605e613bbb17f6cb15df691) on OverLeaf
+
+## 2024-03-01 Proposal && Proposal presentation
+
+- [Proposal](https://www.overleaf.com/project/65debb9a9e68928c323848ef) on OverLeaf
+
+### 9 Heilmeier questions need to be answered by the proposal:
 
 1. What are you trying to do? Articulate your objectives using absolutely no jargon.
 2. How is it done today; what are the limits of current practice?
@@ -23,66 +25,24 @@
 8. How long will it take?
 9. What are the midterm and final "exams" to check for success? How will progress be measured?
 
-### Ideas:
-1. Core CPI forecaster:
-<br /> Instead of predicting the trend of cpi, I am thinking about something more like a model to assess the current macro-economic, showing the impact of different factors in the form of bubbles and giving homomorphic outcomes.
-<br /> There are several statistics we can leverage:
-    - Core CPI
-    - non-farm payrolls
-    - GDP
-    - Interest rate
-    - layoff numbers (?)
-    - Bond price (?)
-      
-    Source: https://research.stlouisfed.org/econ/mccracken/fred-databases
+## 2024-02-25 Project Idea
 
-2. The graph clustering (partially implementation) and Viz
-<br /> Source: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4560455
+- [Detailed Design](https://gtvault-my.sharepoint.com/:w:/r/personal/jmaniery3_gatech_edu/_layouts/15/Doc.aspx?sourcedoc=%7Bea366262-96d8-4022-9bc4-1a4003229d51%7D&action=view&wdparaid=3EE5DD85) by Jonathan
+- [Project Sources](https://gtvault-my.sharepoint.com/personal/jmaniery3_gatech_edu/_layouts/15/onedrive.aspx?e=5%3A4417817e6b794c66ae8658b8b516a7f9&sharingv2=true&fromShare=true&at=9&CT=1711678128702&OR=OWA%2DNT%2DMail&CID=c5ceeadf%2D722c%2D6e18%2D5f1d%2D432b9b7f8e0b&id=%2Fpersonal%2Fjmaniery3%5Fgatech%5Fedu%2FDocuments%2FCSE6242%2DDVA%2DProject&FolderCTID=0x0120001B296D146568AA4FA8D8B485368C6702&view=0) by Jonathan
 
+- [Project Requirements](https://docs.google.com/document/u/0/d/e/2PACX-1vSlYrMw402tL3F95ay-AaptTdF80UOER-gne_O0kqbuuk6WXrlsjwaYjjS0Jyl95dXYyDLjh9DR1mln/pub?pli=1) from CSE 6242 Syllabus
+- Key References:
+  - Mihai Cucuringu et al. “SPONGE: A generalized eigenproblem for clustering signed networks”. In: The 22nd International Conference on Artificial Intelligence and Statistics. PMLR. 2019, pp. 1088–1098.
+  - Scott Murray. Interactive Data Visualization for the Web: An Introduction to Designing with D3. ’O’Reilly Media, Inc., 2017, pp. 195–214
 
-3. Viz of a network of ___
+## 2024-02-18 Init Meeting
 
-## 2024-02-25 Literature Review and Idea Presentation
+### Work Distribution:
 
-2.-JM
--The idea is to visualize the stock market as a network where the visualization application would probably be in d3 or Tableau  
-      The paper uses SPONG clustering which is an algorithm for clustering a signed graph (we have positive and negative correlations)
-<br /> Source2a: https://arxiv.org/abs/1904.08575
-<br /> Source2b (Implementation): https://github.com/alan-turing-institute/SigNet/blob/master/README.md
-<br /> Sources2c: https://scikit-learn.org/stable/modules/clustering.html#spectral-clustering
-
-      -Step 1: Gather individual stock data, we can use free open source yfinance to gather the data and store it in SQLite
-      -Step 2: Compute residual returns - most stocks have exposure to the over-all market which we call "beta" and other movements which are not explained by the market 
-               which we call alpha. This is just a linear regression y(stockA), x(market) and we extract a time-series of residuals for each stock on some rolling window.
-      -Step 3: The clustering is based on a correlation matrix of the residual returns, this tells use what stocks move together based on their unique characteristics and not 
-               the over-all market. 
-      -Step 4: Transform the correlation matrix for clustering. We have a signed weighted graph, what are the issues here?
-               A correlation matrix is a similarity matrix
-      -Step 5: Apply the Specteral clustering/SPONG on the transformed matrix, tune the number of clusters
-      -Step 6: Output and visualization: 1. d3 graph for a given time period of our data set (correlation matrix needs a look-back window to be calculated), 2. Line plot of 
-               returns for each cluster over a given time period, probably want risk adjusted returns as well for comparability 3. Figure out a way to show the under/over valued
-               stocked in each cluster as defined by under/out performance vs the mean of each cluster over some look-back period.
-
-       1. What are you trying to do? Articulate your objectives using absolutely no jargon.
-            Cluster similar stocks together with a correlation matrix to discover mis-priced securities
-       2. How is it done today; what are the limits of current practice?
-            Common approaches today would be something like using categorical assigned sectors, for example evaluate stocks in the Energy sector
-       3. What's new in your approach? Why will it be successful?
-            This approach with inspiration from a recent paper uses automated statistical learning to indentify complex clusters we might of not know existed.
-            For example maybe the algorithm can automatically group together prodcuers and supplies. It could be successful under the hypothesis that most 
-            investors are not using data mining/stastical learning techniques to parse relationships in the stock market. 
-       4. Who cares?
-            People who want to trade or invest, or even just have a better understanding of the stock market and it's interactions. 
-       5. If you're successful, what difference and impact will it make, and how do you measure them (e.g., via user studies, experiments, ground truth data, etc.)?
-            1. If successful we hope users will gain a better understand of diversification and risks they are taking. For example instead of just buying one stock an investor could buy all the stocks in a given cluster to avoid company specific risk.
-            2. In the spirit of the original paper this will help traders identify mispriced securities.  
-       6. What are the risks and payoffs?
-            Compute - if we use the entire stock market we will have thousands of stocks and computing the (N*N) correlation matrix will be slow
-            Clustering Algorithm will need to be refit for each time-period (say the user selects a random continuous 2-year historical period)
-       7. How much will it cost?
-       8. How long will it take?
-       9. What are the midterm and final "exams" to check for success? How will progress be measured?
-
- 
-
-
+|                           | % Grades | Due Date    |          | Status |
+| ------------------------- | -------- | ----------- | -------- | ------ |
+| Proposal                  | 7.5%     | Fri, Mar 1  |          | Done   |
+| Proposal presentation     | 5%       | Fri, Mar 1  | Jonathan | Done   |
+| Progress report           | 5%       | Fri, Mar 29 |          |        |
+| Final poster presentation | 7.5%     | Fri, Apr 19 | Cleo     |        |
+| Final report              | 25%      | Fri, Apr 19 |          |        |
