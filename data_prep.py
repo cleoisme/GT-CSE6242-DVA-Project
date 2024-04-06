@@ -245,7 +245,7 @@ def compute_residuals_for_date(date, df, lookback_window):
     residual_df['cluster'] = labels
 
     # we should also probably store the actual returns
-    residual_df = residual_df.join(raw_returns.iloc[-1:].stack().to_frame("raw_return"))
+    residual_df = residual_df.join(raw_returns.iloc[-1:].stack().to_frame("raw_return")).astype("float16")
    
     # Ensure the DataFrame contains all columns
     return residual_df
