@@ -272,7 +272,7 @@ def residual_returns(df, lookback_window=252):
 def main_data_prep(lookback=252):
     # load and scrub the data-frame
     df = load_pkl_file()
-    df = scrub_df()
+    df = scrub_df(df)
 
     # compute residual returns and concat all dates
     rr = residual_returns(df, lookback_window=lookback)
