@@ -19,6 +19,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
 
+import warnings
+
 np.random.seed(49)
 
 # these are the static dtypes for the columns in the dataframe
@@ -129,44 +131,53 @@ def clusterOpticsPCS(past_returns, n_components=.80):
     out['Opticslabels'] = labels
     return out
 
+
 def clusterSPONGE(past_returns, k=30):
     np.random.seed(49)
     corr_matx = past_returns.corr()
+    
+    # define the positive matrix
     corr_pos = corr_matx.copy().values
-    corr_pos[corr_pos<=0] = 0
+    corr_pos[corr_pos<=0] = 0.
+    
+    # define the negative matrix
     corr_neg = corr_matx.copy().values
-    corr_neg[corr_neg>=0] = 0
+    corr_neg[corr_neg>=0] = 0.
 
     # needs to be in coordinate format
-    corr_pos = csc_matrix(corr_pos)
-    corr_neg = csc_matrix(corr_neg)
+    corr_pos = csc_matrix(corr_pos, dtype='float32')
+    corr_neg = csc_matrix(corr_neg, dtype='float32')
 
     # cluster
-    c = Cluster((corr_pos, corr_neg))
-    labels = c.SPONGE(k=k)
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        c = Cluster((corr_pos, corr_neg))
+        labels = c.SPONGE(k=k)
+        return labels
 
-    return labels
 
 def compute_residuals_for_date(date, df, lookback_window):
+    # NOTE - should I use log returns here?
     # Grab the stocks governed by the look-back period and compute percent changes
     window = df.loc[date - BDay(lookback_window):date].dropna(axis=1)
-    past_returns = window.pct_change().dropna().clip(lower=-0.35, upper=0.35)
+    log_returns = np.log(window/window.shift(1)).dropna()
+    raw_returns = window.pct_change().dropna()
 
     # take the values from t-1 through t-look-back, these are the in-sample values
     # save t0-t1 as the out of sample residual return to append and send back out
-    mkt_return = past_returns.mean(axis=1).values.reshape(-1, 1)
+    mkt_return = log_returns.mean(axis=1).values.reshape(-1, 1) # this assumes an equal weight index
     reg = LinearRegression()
-    reg.fit(X=mkt_return[:-1], y=past_returns.iloc[:-1])
+    reg.fit(X=mkt_return[:-1], y=log_returns.iloc[:-1])
 
     # compute in-sample residual returns to fit the clustering algorithm on
     in_sample_pred = reg.predict(mkt_return[:-1])
-    in_sample_resid = past_returns.iloc[:-1] - in_sample_pred
+    in_sample_resid = log_returns.iloc[:-1] - in_sample_pred
 
     # fit SPONGE Algorithm and compute the labels where k=30
     labels = clusterSPONGE(in_sample_resid, k=30)
 
     # Now predict the market impact and compute residual returns for the most recent date
-    new_return = past_returns.iloc[-1:]
+    new_return = log_returns.iloc[-1:]
     residual = new_return - reg.predict(mkt_return[-1].reshape(1, -1))
     residual_df = pd.DataFrame(residual, index=[date], columns=new_return.columns)
 
@@ -175,7 +186,7 @@ def compute_residuals_for_date(date, df, lookback_window):
     residual_df['cluster'] = labels
 
     # we should also probably store the actual returns
-    residual_df = residual_df.join(past_returns.iloc[-1:].stack().to_frame("raw_return"))
+    residual_df = residual_df.join(raw_returns.iloc[-1:].stack().to_frame("raw_return"))
    
     # Ensure the DataFrame contains all columns
     return residual_df
@@ -200,14 +211,14 @@ def residual_returns(df, lookback_window=252):
     
         
 if __name__ == '__main__':
+    # TODO - this is close but the algorithm seems to fail on certian dates
     df = load_pkl_file()
     df = scrub_df(df)
+    rr=residual_returns(df, lookback_window=504)
+    rr.to_parquet("residual_returns.parquet")
 
-    lookback_window=252
-    df = df['close'].unstack().sort_index()
-    dates = df.index[lookback_window:]
-    
-    t=compute_residuals_for_date(dates[-1], df, lookback_window=252)
+
+   
 
 
 
