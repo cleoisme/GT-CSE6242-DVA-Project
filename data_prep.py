@@ -4,6 +4,7 @@ import os
 from pandas.tseries.offsets import BDay
 from tqdm import tqdm
 from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
 
 import dask.dataframe as dd
 import dask
@@ -18,6 +19,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
+import seaborn as sns
 
 import warnings
 
@@ -44,14 +46,67 @@ def load_pkl_file(filename="liquidity_master.pkl"):
                 return df
     raise FileNotFoundError(f"File {filename} not found in C:/")
 
+
 def evaluate_singleP(df):
     df_new = df.loc[df.index.get_level_values('date')>="2022-04-05"]['close'].unstack().dropna(axis=1)
     df_new = df_new.pct_change().dropna()
 
     cluster_optics = clusterOpticsPCS(df_new, n_components=20)
-    cluster_sponge = clusterSPONGE(df_new, k=20)
+    cluster_sponge = clusterSPONGE(df_new, k=30)
 
     return cluster_optics, cluster_sponge, df_new
+
+
+def generate_sample_corr_mat(df, n_dfs=5, residual_returns=True):
+    # for testing this generates multiple correlation matrice to observe
+    df = df['close'].unstack().sort_index()
+    dates = df.index[504:]
+    out = dict()
+
+    for i in range(n_dfs):
+        _date = np.random.choice(dates)
+        _df = df.loc[_date - BDay(504):_date].dropna(axis=1)
+        log_returns = np.log(_df/_df.shift(1)).dropna()
+
+        if residual_returns:
+            mkt = log_returns.mean(axis=1)
+            reg = LinearRegression()
+            reg.fit(mkt.values.reshape(-1, 1), log_returns.values)
+            resid_returns = log_returns - reg.predict(mkt.values.reshape(-1, 1))
+            out[str(i)] = resid_returns.corr()
+        else:
+            out[str(i)] = log_returns.corr()
+    return out
+
+def generate_sorted_corr_matx(corr, labels):
+    plt.clf()
+    labels = np.argsort(labels)
+    sorted_corr = corr.iloc[labels, labels]
+
+    sns.heatmap(sorted_corr)
+    plt.show()
+
+
+def make_pos_neg(corr):
+    # preps the correlation matrix to be inputed into SPONG
+    pos, neg = corr.copy().values, corr.copy().values
+    pos[pos<0]=0
+    neg[neg>0]=0
+    neg = np.abs(neg)
+    return csc_matrix(pos), csc_matrix(neg)
+
+
+def run_eval(k=20):
+    df = load_pkl_file()
+    df = scrub_df(df)
+
+    corrs = generate_sample_corr_mat(df)
+    for i in corrs.keys():
+        corr1 = corrs[i]
+        pos, neg = make_pos_neg(corr1)
+        c = Cluster((pos, neg))
+        labels = c.SPONGE(k=k)
+        generate_sorted_corr_matx(corr1, labels)
 
 
 def resample_multidf_monthly_wffill(df, col_batch_size=5, limit=5, freq='W'):
@@ -74,9 +129,11 @@ def resample_multidf_monthly_wffill(df, col_batch_size=5, limit=5, freq='W'):
     df = df.astype(dtype_dict)
     return df
 
+
 def scrub_df(df):
     # can add any logic here to scrub the df, for now set to in_universe=True
     return (df.loc[df.in_universe==True])
+
 
 def find_cum_var(symetric_matrix, var_explained=.80):
     eigenvalues, _ = np.linalg.eigh(symetric_matrix)
@@ -97,6 +154,7 @@ def find_cum_var(symetric_matrix, var_explained=.80):
     num_eigenvalues = np.argmax(explained_variance_ratio >= var_explained) + 1
     return num_eigenvalues
 
+
 def tuneOpticsPCS(data):
     best_score = -1
     best_params = {}
@@ -114,6 +172,7 @@ def tuneOpticsPCS(data):
                     best_params = {'min_samples': min_samples, 'max_eps': max_eps}
                     print(f'Best Params: {best_params} | {score}')
     return best_params
+
 
 def clusterOpticsPCS(past_returns, n_components=.80):
     pipe = Pipeline(steps=[('scaler', StandardScaler()),
@@ -137,14 +196,14 @@ def clusterSPONGE(past_returns, k=30):
     corr_matx = past_returns.corr()
     
     # define the positive matrix
-    corr_pos = corr_matx.copy().values
-    corr_pos[corr_pos<=0] = 0.
-    
-    # define the negative matrix
-    corr_neg = corr_matx.copy().values
-    corr_neg[corr_neg>=0] = 0.
+    corr_pos, corr_neg = corr_matx.copy().values, corr_matx.copy()
+    corr_pos[corr_pos<0] = 0.
+    corr_neg[corr_neg>0] = 0.
 
-    # needs to be in coordinate format
+    # now convert the negative matrix to positive 
+    corr_neg = np.abs(corr_neg)
+
+    # needs to be in sparse COO format!
     corr_pos = csc_matrix(corr_pos, dtype='float32')
     corr_neg = csc_matrix(corr_neg, dtype='float32')
 
@@ -208,14 +267,40 @@ def residual_returns(df, lookback_window=252):
         out = dask_df.compute()
 
     return out
-    
-        
-if __name__ == '__main__':
-    # TODO - this is close but the algorithm seems to fail on certian dates
+
+
+def main_data_prep(lookback=252):
+    # load and scrub the data-frame
+    df = load_pkl_file()
+    df = scrub_df()
+
+    # compute residual returns and concat all dates
+    rr = residual_returns(df, lookback_window=lookback)
+
+    print("Saving Residual Returns to Parqeut...")
+    rr.to_parquet("residual_returns.parquet")
+
+
+def run_example_algo():
     df = load_pkl_file()
     df = scrub_df(df)
-    rr=residual_returns(df, lookback_window=504)
-    rr.to_parquet("residual_returns.parquet")
+
+    corrs = generate_sample_corr_mat(df)
+    for i in corrs.keys():
+        corr1 = corrs[i]
+        pos, neg = make_pos_neg(corr1)
+        c = Cluster((pos, neg))
+        labels = c.SPONGE(k=20)
+        generate_sorted_corr_matx(corr1, labels)
+
+        
+if __name__ == '__main__':
+    N_LOOKBACK = 252
+    main_data_prep(lookback=N_LOOKBACK)
+
+
+
+
 
 
    
