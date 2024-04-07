@@ -244,10 +244,12 @@ def compute_residuals_for_date(date, df, lookback_window):
     residual_df = residual_df.stack().to_frame("residual_return")
     residual_df['cluster'] = labels
 
-    # we should also probably store the actual returns
-    residual_df = residual_df.join(raw_returns.iloc[-1:].stack().to_frame("raw_return")).astype("float16")
+    dtypes = {'cluster': 'int8', 'residual_return': 'float16', 'raw_return': 'float16'}
+
+    # return residual returns, actual returns and cluster assignments
+    residual_df = residual_df.join(raw_returns.iloc[-1:].stack().to_frame("raw_return"))
+    residual_df = residual_df.astype(dtypes)
    
-    # Ensure the DataFrame contains all columns
     return residual_df
 
 
@@ -278,7 +280,7 @@ def main_data_prep(lookback=252):
     rr = residual_returns(df, lookback_window=lookback)
 
     print("Saving Residual Returns to Parqeut...")
-    rr.to_parquet("residual_returns.parquet")
+    rr.to_pickle("residual_returns.pkl")
 
 
 def run_example_algo():
@@ -295,7 +297,7 @@ def run_example_algo():
 
         
 if __name__ == '__main__':
-    N_LOOKBACK = 252
+    N_LOOKBACK = 504
     main_data_prep(lookback=N_LOOKBACK)
 
 
