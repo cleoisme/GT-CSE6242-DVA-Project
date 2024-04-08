@@ -215,7 +215,7 @@ def clusterSPONGE(past_returns, k=30):
         return labels
 
 
-def compute_residuals_for_date(date, df, lookback_window):
+def compute_residuals_for_date(date, df, lookback_window, k=30):
     # NOTE - should I use log returns here?
     # Grab the stocks governed by the look-back period and compute percent changes
     window = df.loc[date - BDay(lookback_window):date].dropna(axis=1)
@@ -233,7 +233,7 @@ def compute_residuals_for_date(date, df, lookback_window):
     in_sample_resid = log_returns.iloc[:-1] - in_sample_pred
 
     # fit SPONGE Algorithm and compute the labels where k=30
-    labels = clusterSPONGE(in_sample_resid, k=30)
+    labels = clusterSPONGE(in_sample_resid, k=k)
 
     # Now predict the market impact and compute residual returns for the most recent date
     new_return = log_returns.iloc[-1:]
@@ -243,13 +243,14 @@ def compute_residuals_for_date(date, df, lookback_window):
     # store the residual returns
     residual_df = residual_df.stack().to_frame("residual_return")
     residual_df['cluster'] = labels
-
-    dtypes = {'cluster': 'int8', 'residual_return': 'float16', 'raw_return': 'float16'}
+    dtypes = {'cluster': 'int8',
+              'residual_return': 'float16',
+              'raw_return': 'float16'}
 
     # return residual returns, actual returns and cluster assignments
     residual_df = residual_df.join(raw_returns.iloc[-1:].stack().to_frame("raw_return"))
     residual_df = residual_df.astype(dtypes)
-   
+
     return residual_df
 
 
