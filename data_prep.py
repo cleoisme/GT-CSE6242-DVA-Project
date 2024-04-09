@@ -296,10 +296,30 @@ def run_example_algo():
         labels = c.SPONGE(k=20)
         generate_sorted_corr_matx(corr1, labels)
 
+
+def build_feat_df(df_path='cumulative_cluster_returns.pkl'):
+    # cumulative returns
+    rets = pd.read_pickle(df_path)
+
+    from utils.ml_utils import build_features
+    feats = build_features(rets)
+    
+    print("Saving out features data....")
+    feats.to_pickle("features.pkl")
+
+
+def load_features_data():
+    try:
+        return pd.read_pickle("features.pkl")
+    except Exception:
+        build_feat_df()
+        return pd.read_pickle("features.pkl")
+
+
+
+
         
-if __name__ == '__main__':
-    N_LOOKBACK = 504
-    main_data_prep(lookback=N_LOOKBACK)
+
 
 
 
