@@ -58,7 +58,7 @@ def evaluate_singleP(df):
     return cluster_sponge, df_new
 
 
-def generate_sample_corr_mat(df, n_dfs=5, residual_returns=True, look_back=60):
+def generate_sample_corr_mat(df, n_dfs=5, residual_returns=True, look_back=252):
     # for testing this generates multiple correlation matrice to observe
     df = df['close'].unstack().sort_index()
     dates = df.index[look_back:]
@@ -142,6 +142,7 @@ def run_eval(k=20):
     corrs = generate_sample_corr_mat(df)
     for i in corrs.keys():
         corr1 = corrs[i]
+        print(f"Shape of Corr: {corr1.shape}")
         pos, neg = make_pos_neg(corr1)
         c = Cluster((pos, neg))
         labels = c.SPONGE(k=k)
