@@ -236,10 +236,10 @@ def scrub_df(df):
     # df['marketcap_med12m'] = df.groupby(by='ticker')['marketcap'].rolling(252).median().droplevel(0)
     # df['dollar_volume_med12'] = df.groupby(by='ticker')['dollar_volume'].rolling(252).median().droplevel(0)
     # df['closeunadj_med12m'] = df.groupby(by='ticker')['closeunadj'].rolling(252).median().droplevel(0)
-    df['marketcapQ'] = df.groupby(by='date')['marketcap'].apply(lambda x: pd.qcut(x, q=2, labels=False)).droplevel(0)
+    df['marketcapQ'] = df.groupby(by='date')['marketcap'].apply(lambda x: pd.qcut(x, q=4, labels=False)).droplevel(0)
 
-    # take the top half of market values for now?
-    df = df.loc[df['marketcapQ']==1]
+    # take the top quartile of stocks with the highest market cap on each date
+    df = df.loc[df['marketcapQ']==3]
     return df
 
 
