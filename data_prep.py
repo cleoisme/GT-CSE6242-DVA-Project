@@ -226,22 +226,8 @@ def scrub_df(df):
     # can add any logic here to scrub the df, for now set to in_universe=True
     # marketcap_med3m > 50
     # dollar_volume_med3m > 250_000
-    # closeunadj_med3m > 5
-
-     # marketcap_med12m > 350
-    # dollar_volume_med12m > 500000
-    # closeunadj_med3m > 5
-
-    # NOTE - I want to make a slower moving univserse with less stocks
-    # NOTE - goal is to cut down on cluster assignment turnover
-    # df['marketcap_med12m'] = df.groupby(by='ticker')['marketcap'].rolling(252).median().droplevel(0)
-    # df['dollar_volume_med12'] = df.groupby(by='ticker')['dollar_volume'].rolling(252).median().droplevel(0)
-    # df['closeunadj_med12m'] = df.groupby(by='ticker')['closeunadj'].rolling(252).median().droplevel(0)
-    df['marketcapQ'] = df.groupby(by='date')['marketcap'].apply(lambda x: pd.qcut(x, q=4, labels=False)).droplevel(0)
-
-    # take the top quartile of stocks with the highest market cap on each date
-    df = df.loc[df['marketcapQ']==3]
-    return df
+    # closeunadj_med3m > 5 
+    return df.loc[df.in_universe==True]
 
 
 def find_cum_var(symetric_matrix, var_explained=.80):
@@ -345,6 +331,9 @@ def compute_residuals_for_date(date, df, lookback_window, k=20):
     in_sample_pred = reg.predict(mkt_return[:-1])
     in_sample_resid = log_returns.iloc[:-1] - in_sample_pred
 
+    print(in_sample_resid.isnull().sum())
+    print(np.inf in in_sample_resid.values)
+
     # fit SPONGE Algorithm and compute the labels where k=30
     labels = clusterSPONGE(in_sample_resid, k=k)
 
@@ -388,7 +377,6 @@ def residual_returns(df, lookback_window=252):
 
     with ProgressBar():
         out = dask_df.compute()
-
     return out
 
 
