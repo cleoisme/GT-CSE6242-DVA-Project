@@ -236,10 +236,10 @@ def scrub_df(df):
     # df['marketcap_med12m'] = df.groupby(by='ticker')['marketcap'].rolling(252).median().droplevel(0)
     # df['dollar_volume_med12'] = df.groupby(by='ticker')['dollar_volume'].rolling(252).median().droplevel(0)
     # df['closeunadj_med12m'] = df.groupby(by='ticker')['closeunadj'].rolling(252).median().droplevel(0)
-    df['marketcapQ'] = df.groupby(by='date')['marketcap'].apply(lambda x: pd.qcut(x, q=5, labels=False)).droplevel(0)
+    df['marketcapQ'] = df.groupby(by='date')['marketcap'].apply(lambda x: pd.qcut(x, q=2, labels=False)).droplevel(0)
 
-    # take only the top quintile of highest market cap companies
-    df = df.loc[df.marketcapQ==4]
+    # take the top half of market values for now?
+    df = df.loc[df['marketcapQ']==1]
     return df
 
 
@@ -362,7 +362,6 @@ def compute_residuals_for_date(date, df, lookback_window, k=20):
     # return residual returns, actual returns and cluster assignments
     residual_df = residual_df.join(raw_returns.iloc[-1:].stack().to_frame("raw_return"))
     residual_df = residual_df.astype(dtypes)
-
     return residual_df
 
 
@@ -394,7 +393,7 @@ def residual_returns(df, lookback_window=252):
 
 def main_data_prep(lookback=252):
     # load and scrub the data-frame
-    df = load_pkl_file(filename='top600mktcap.pkl')
+    df = load_pkl_file(filename='liquidity_master.pkl')
    
     # compute residual returns and concat all dates
     rr = residual_returns(df, lookback_window=lookback)
@@ -405,8 +404,8 @@ def main_data_prep(lookback=252):
 
 
 def run_example_algo():
-    df = load_pkl_file(filename='top600mktcap.pkl')
-    #df = scrub_df(df)
+    df = load_pkl_file(filename='liquidity_master.pkl')
+    df = scrub_df(df)
 
     corrs = generate_sample_corr_mat(df)
     for i in corrs.keys():
