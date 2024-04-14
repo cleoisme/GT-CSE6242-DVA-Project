@@ -426,14 +426,14 @@ def load_features_data():
     
 
 def build_distance_matrix(corr_matrix):
-    distance_matrix = np.sqrt(2 * (1 - correlation_matrix))
+    distance_matrix = np.sqrt(2 * (1 - corr_matrix))
     
     if 'ticker' in distance_matrix.index.names:
         distance_matrix.index.names = ['source_index']
     
-distance_long = distance_matrix.stack().reset_index()
-distance_long.columns = ['source', 'target', 'distance']
-distance_long.to_csv('distance_matrix.csv', index=False)
+    distance_long = distance_matrix.stack().reset_index()
+    distance_long.columns = ['source', 'target', 'distance']
+    distance_long.to_csv('distance_matrix.csv', index=False)
 
 
 
