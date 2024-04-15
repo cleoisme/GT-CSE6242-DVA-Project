@@ -292,6 +292,9 @@ def clusterSPONGE(past_returns, k=30, mp=False):
         k = optimal_number_of_clusters(past_returns, past_returns.shape[1]/past_returns.shape[0])
         print(f'Found Optimal K based on MP: {k}')
     corr_matx = past_returns.corr()
+
+    print(np.inf in corr_matx.values)
+    print(corr_matx.isnull().sum())
     
     # define the positive matrix
     corr_pos, corr_neg = corr_matx.copy().values, corr_matx.copy()
@@ -331,8 +334,8 @@ def compute_residuals_for_date(date, df, lookback_window, k=20):
     in_sample_pred = reg.predict(mkt_return[:-1])
     in_sample_resid = log_returns.iloc[:-1] - in_sample_pred
 
-    print(in_sample_resid.isnull().sum())
-    print(np.inf in in_sample_resid.values)
+    # print(in_sample_resid.isnull().sum())
+    # print(np.inf in in_sample_resid.values)
 
     # fit SPONGE Algorithm and compute the labels where k=30
     labels = clusterSPONGE(in_sample_resid, k=k)
@@ -383,6 +386,7 @@ def residual_returns(df, lookback_window=252):
 def main_data_prep(lookback=252):
     # load and scrub the data-frame
     df = load_pkl_file(filename='liquidity_master.pkl')
+    df = scrub_df(df)
    
     # compute residual returns and concat all dates
     rr = residual_returns(df, lookback_window=lookback)
