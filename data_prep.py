@@ -58,7 +58,7 @@ def evaluate_singleP(df):
     return cluster_sponge, df_new
 
 
-def generate_sample_corr_mat(df, n_dfs=5, residual_returns=True, look_back=252):
+def generate_sample_corr_mat(df, n_dfs=5, residual_returns=True, look_back=60):
     # for testing this generates multiple correlation matrice to observe
     df = df['close'].unstack().sort_index()
     dates = df.index[look_back:]
@@ -145,7 +145,7 @@ def run_eval(k=20):
         print(f"Shape of Corr: {corr1.shape}")
         pos, neg = make_pos_neg(corr1)
         c = Cluster((pos, neg))
-        labels = c.SPONGE(k=k)
+        labels = c.SPONGE_sym(k=k)
         generate_sorted_corr_matx(corr1, labels)
 
 
@@ -293,8 +293,8 @@ def clusterSPONGE(past_returns, k=30, mp=False):
         print(f'Found Optimal K based on MP: {k}')
     corr_matx = past_returns.corr()
 
-    print(np.inf in corr_matx.values)
-    print(corr_matx.isnull().sum())
+    # print(np.inf in corr_matx.values)
+    # print(corr_matx.isnull().sum())
     
     # define the positive matrix
     corr_pos, corr_neg = corr_matx.copy().values, corr_matx.copy()
@@ -383,7 +383,7 @@ def residual_returns(df, lookback_window=252):
     return out
 
 
-def main_data_prep(lookback=252):
+def main_data_prep(lookback=252, f_name="residual_returns.pkl"):
     # load and scrub the data-frame
     df = load_pkl_file(filename='liquidity_master.pkl')
     df = scrub_df(df)
@@ -393,7 +393,7 @@ def main_data_prep(lookback=252):
     rr = rr.reset_index().set_index(['date', 'ticker']).drop("level_0", axis=1)
 
     print("Saving Residual Returns to Pickle...")
-    rr.to_pickle("residual_returns.pkl")
+    rr.to_pickle(f_name)
 
 
 def run_example_algo():
