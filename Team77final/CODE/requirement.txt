@@ -1,0 +1,1 @@
+Make sure that your package includes only the absolutely necessary set of files.

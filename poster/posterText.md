@@ -26,9 +26,13 @@ SPONGE and Beyond: Signed Weighted Graph Stock Clustering for Dynamic Market For
 
     SPONGE utilizes the spectral properties of the Laplacian matrix associated with the signed network to identify clusters. By solving this generalized eigenvalue problem, SPONGE effectively partitions the network into clusters while considering both positive and negative interactions between nodes. This approach enables SPONGE to handle recent stock data using signed networks for our project, where edges represent both positive and negative relationships, and effectively uncover meaningful clusters within such networks (groups of similar companies).
 
+    [To Insert: a figure explaining how the algo works]
+
   - D3.js:
 
     D3 will be used to visualize the correlation matrix of stock residual returns as a network, which will introduce the intuition, interactivity and the user-friendness to our project.
+
+    [To Insert: a figure explaining how D3.js represent the data from SPONGE and how users can interact with the visualization]
 
 - 5% Why do you think they can effectively solve your problem (i.e., what is the intuition behind your approaches)?
 
@@ -52,8 +56,17 @@ SPONGE and Beyond: Signed Weighted Graph Stock Clustering for Dynamic Market For
 ## [Need Help] 25% Experiments and results:
 
 - 5% How did you evaluate your approaches?
+
+  1. Hypothesis: Long/short mean cluster forecasting strategy can outperform the mean return of our investment universe while taking the same amount of risk.
+  2. Design matrix X are time-series momentum features for each cluster on each day and targets are their associated one-day forward risk adjusted return. This is a regression problem.
+  3. Expanding window walk-forward cross validation at 5 year increments using a 90/10 split for training and validation (tuning hyper-parameters), testing set five years forward. For parameter search we plan to use randomized grid-search in sklearn.
+  4. Modeling : Use linear models as a baseline and compare with more complex machine model (e.g Ridge vs Random Forest)
+  5. We will have multiple evaluation criteria, for tuning in the walk-forward step we will use **mean-squared error (MSE)**. For investment performance we will evaluate metrics like **total return** and **Sharpe ratio**. We expect to see a linear relationship between the accuracy of the forecasting models and investment performance
+
 - 10% What are the results?
+  [TODO]
 - 10% How do your methods compare to other methods?
+  [Traditional arbitrage methods? QQQ?]
 
 ## 10% Presentation delivery:
 
