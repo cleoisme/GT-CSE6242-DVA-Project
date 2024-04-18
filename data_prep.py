@@ -409,9 +409,11 @@ def run_example_algo():
         generate_sorted_corr_matx(corr1, labels)
 
 
-def build_feat_df(df_path='residual_returns.pkl'):
+def build_feat_df(df_path='residual_returns60.pkl'):
     # cumulative returns
     rets = pd.read_pickle(df_path)
+    rets.dropna(subset=['raw_return'], inplace=True, axis=0)
+    rets['raw_return'] = rets['raw_return'].clip(-.35, .35)
     rets = (1 + rets.groupby(by=['date', 'cluster'])['raw_return'].mean().unstack()).cumprod().stack().to_frame('ret')
 
     from utils.ml_utils import build_features
