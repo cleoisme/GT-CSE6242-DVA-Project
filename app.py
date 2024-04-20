@@ -2,12 +2,20 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import altair as alt
+import sqlite3 as sql
 
+# connect to database
+conn = sql.connect("ml_results.db")
 st.title("Cumulative Returns of Cluster Selection Strategy")
 
 # cumulative returns 
-df = pd.read_pickle("cum_cluster_returns.pkl")
-metric_df = pd.read_pickle("metrics_df.pkl")
+df = pd.read_sql('Select * from strategy_returns', conn)
+metric_df = pd.read_sql("Select * from metrics_df", conn)
+
+# set both indices
+df.set_index('date', inplace=True)
+metric_df.set_index('index', inplace=True)
+
 
 # User input to select strategies
 selected_strategies = st.multiselect(
