@@ -22,3 +22,4 @@ Post-installation, to execute the application:
 
 ## Additional Information:
 Launching the Streamlit app provides access to an interactive line plot representing cluster forecasting returns, a corresponding table, and cross-validation results employing a custom five-year expanding window method akin to sklearn's TimeSeriesSplit, differentiated by date-defined splits that align with five-year increments.
+The base data for this project is in the zip file named "residual_returns60.pkl". This is the minimum requirement in the root file. If the program can't find the precomputed results dataframes all the model tunning and fitting will run automatically. 
