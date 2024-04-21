@@ -13,6 +13,7 @@ To install and set up the codebase, follow these steps:
    a. Creating a conda environment with `conda create -n your_env_name python=3.11.5 pip`.
    b. Activating the conda environment and navigating to the repository to run `pip install -r requirements.txt`.
    c. Reference the installation guide at https://datumorphism.leima.is/.
+4. Insert the mydatabase.db into the root project directory.
 
 ## Execution
 Post-installation, to execute the application:
@@ -20,6 +21,12 @@ Post-installation, to execute the application:
 1. Activate the previously created conda environment.
 2. Navigate to the project's root directory.
 3. Execute the Streamlit app by typing `streamlit run app.py` into the Anaconda prompt.
+
+To execute the graph visual:
+1. Navigate to project's root directory.
+2. Open terminal and run 'python flask_app.py'
+3. Open up on server, terminal should say something like "Running on http://127.0.0.1:5000".
+4. Copy and paste server link into browser. 
 
 ## Additional Information:
 Launching the Streamlit app provides access to an interactive line plot representing cluster forecasting returns, a corresponding table, and cross-validation results employing a custom five-year expanding window method akin to sklearn's TimeSeriesSplit, differentiated by date-defined splits that align with five-year increments.
