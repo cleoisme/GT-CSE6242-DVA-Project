@@ -2,8 +2,8 @@
 
 ## 2024-04-10 Mock Poster
 
-- [Design](https://www.figma.com/file/axpVnCUkpGxcK6Xg9PeIaf/Poster?type=whiteboard&t=a3oq6j1K881nHLvX-0) on Figma.
-- [Requirements](./poster/posterText.md)
+- [Design](./poster/cse6242-poster.pptx) on PowerPoint.
+- [Requirements]([./poster/posterText.md](https://docs.google.com/document/d/e/2PACX-1vSlYrMw402tL3F95ay-AaptTdF80UOER-gne_O0kqbuuk6WXrlsjwaYjjS0Jyl95dXYyDLjh9DR1mln/pub#h.l9wzpzeec46p))
 
 ## 2024-03-29 Progress report
 
