@@ -4,7 +4,7 @@ import numpy as np
 import altair as alt
 import sqlite3 as sql
 from forecast import run_model
-
+from utils.ml_utils import get_returns_breakout
 
 def run_app():
     st.title("Cumulative Returns of Cluster Selection Strategy")
@@ -50,12 +50,18 @@ def run_app():
     df.set_index('date', inplace=True)
     metric_df.set_index('index', inplace=True)
 
+    # create a variable for the market
+    df['market'] = (1+df.pct_change().mean(axis=1)).cumprod()
+    mkt_stats = get_returns_breakout(df[['market']].pct_change().dropna()).reset_index()
+    mkt_stats.set_index('index', inplace=True)
+    metric_df = pd.concat([metric_df, mkt_stats])
+
 
     # User input to select strategies
     selected_strategies = st.multiselect(
         'Select investment strategies to plot:',
         options=df.columns.to_list(),
-        default=['preds_RF_Q_3.0', 'preds_eNet_Q_3.0']
+        default=['preds_RF_Q_3.0', 'preds_eNet_Q_3.0', 'market']
     )
 
     # Filter the DataFrame based on the selected strategies
