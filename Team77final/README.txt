@@ -8,6 +8,7 @@ To install and set up the codebase, follow these steps:
 1. Clone the GitHub repository at https://github.com/cleoisme/GT-CSE6242-DVA-Project.
 2. Download the project data from SharePoint, accessible only within the gatech.edu domain at https://gtvault-my.sharepoint.com/:u:/g/personal/jmaniery3_gatech_edu/EeT-rOHzKhpIrE3KeVHCkUsBtjk7jxdy5QvXPsk9aSFJWQ?e=LCYTAZ. Ensure to:
    a. Extract the ZIP folder into the root directory of the cloned repository.
+   b. SQL and pickle files are included in the CODE folder , so you likely won't need to download from the link above
 3. Use pip within a conda environment to process the `requirements.txt` by:
    a. Creating a conda environment with `conda create -n your_env_name python=3.11.5 pip`.
    b. Activating the conda environment and navigating to the repository to run `pip install -r requirements.txt`.
