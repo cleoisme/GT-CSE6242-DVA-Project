@@ -1,0 +1,31 @@
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPONGE Cluster Graph</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='lib/d3.v5.min.js') }}"></script>
+    <style>
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 style="color: #B3A369;">SPONGE Stock Clustering</h1>
+        <p>Stocks are typically clustered through categorical means, typically by sector. The <a href="https://arxiv.org/abs/1904.08575" target="_blank" class="link-gold">SPONGE Algorithm</a> provides a different way to cluster stocks,
+             and potentially find investment opportunities. 
+             
+             If you like a stock in a cluster you may want to purchase the other securities, as they are performing in tandem.
+             You can select a date range below (formatted YYYYMMDD) to see what stocks belong to what clusters over a 25 year time period. Clicking on a node provides you with every 
+             stock in that cluster. Hover over the points to learn more about each single datapoint. 
+        </p>
+    </header>
+    <div class="controls">
+        <select id="dateRangeSelect"></select>
+        <button id="zoomOut">Back</button>
+    </div>
+    <div id="visualization"></div>
+    <script src="{{ url_for('static', filename='js/d3_script.js') }}"></script>
+</body>
+</html>

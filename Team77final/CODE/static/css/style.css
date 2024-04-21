@@ -1,0 +1,57 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: auto;  
+    overflow-x: hidden;  
+}
+
+#visualization {
+    width: 100%;
+    height: 100%;
+}
+
+#dateRangeSelect{
+    margin: 10px;
+    padding: 10px; 
+    background-color: #eee;
+    border-radius: 15px;
+}
+
+#zoomOut {
+    margin: 10px;
+    padding: 10px; 
+    display: none;
+    border-radius: 15px;
+    position: fixed;
+    top: 300px;
+}
+
+.header {
+    text-align: left;
+    padding: 20px;
+    background-color: #003057; 
+    width: 100%; 
+    box-sizing: border-box;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.header h1 {
+    color: #B3A369; 
+}
+
+.header p {
+    color: white; 
+}
+
+.link-gold {
+    color: #B3A369; 
+    text-decoration: none; 
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;  
+    padding: 10px;
+    display: flex;
+    border-radius: 15px;
+}
